@@ -1,4 +1,3 @@
-/* styles.css */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -85,7 +84,7 @@ header h1 {
 }
 
 .search-bar {
-  margin: 18px;
+  margin: 28px 17px 18px 18px;
   padding: 10px;
   width: 40%;
   height: 21px;
@@ -154,6 +153,18 @@ header h1 {
   box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
   border-radius: 16px;
   border: 0px solid rgb(229, 231, 235);
+}
+@media (max-width: 768px) {
+  .retreat-card img {
+    height: 150px;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+    border-radius: 16px;
+    border: 0px solid rgb(229, 231, 235);
+  }
 }
 
 .retreat-card h2 {
