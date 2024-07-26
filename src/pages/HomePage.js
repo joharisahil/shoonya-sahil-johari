@@ -20,17 +20,8 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const newTotalPages = Math.ceil(filteredRetreats.length / itemsPerPage);
-    setTotalPages(newTotalPages);
-    setCurrentPage(1); // Reset to first page on filter change
-  }, [filteredRetreats]);
-
-  useEffect(() => {
-    // Ensure current page is valid after filtering or pagination
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [totalPages]);
+    applyFilters();
+  }, [retreats, searchQuery, currentPage]);
 
   const fetchRetreats = async () => {
     try {
@@ -38,40 +29,91 @@ const HomePage = () => {
         "https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats"
       );
       setRetreats(response.data);
-      setFilteredRetreats(response.data);
+      applyFilters(response.data);
     } catch (error) {
       console.error("Failed to fetch retreats", error);
     }
   };
 
-  const handleDateChange = (date) => {
-    // Implement date filter logic
+  const applyFilters = (retreatsToFilter = retreats) => {
+    // Apply search filter
+    const searchFiltered = retreatsToFilter.filter((retreat) =>
+      retreat.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Apply pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedFiltered = searchFiltered.slice(startIndex, endIndex);
+
+    setFilteredRetreats(paginatedFiltered);
+    setTotalPages(Math.ceil(searchFiltered.length / itemsPerPage));
+  };
+
+  const handleDateChange = (dateRange) => {
+    let filteredByDate;
+    const now = new Date();
+    let startYear, endYear;
+
+    switch (dateRange) {
+      case "2023-2024":
+        startYear = 2023;
+        endYear = 2024;
+        break;
+      case "2024-2025":
+        startYear = 2024;
+        endYear = 2025;
+        break;
+      default:
+        filteredByDate = retreats;
+        break;
+    }
+
+    if (startYear && endYear) {
+      const startTimestamp = new Date(startYear, 0, 1).getTime() / 1000;
+      const endTimestamp = new Date(endYear, 0, 1).getTime() / 1000;
+
+      filteredByDate = retreats.filter((retreat) => {
+        const retreatDate = retreat.date;
+        return retreatDate >= startTimestamp && retreatDate < endTimestamp;
+      });
+    }
+
+    // Apply search filter on top of date filter
+    applyFilters(filteredByDate);
   };
 
   const handleTypeChange = (type) => {
-    let filtered;
+    let filteredByType;
+
     switch (type) {
       case "Yoga":
-        filtered = retreats.filter((retreat) => retreat.tag.includes("yoga"));
+        filteredByType = retreats.filter((retreat) =>
+          retreat.tag.includes("yoga")
+        );
         break;
       case "Meditation":
-        filtered = retreats.filter((retreat) =>
+        filteredByType = retreats.filter((retreat) =>
           retreat.tag.includes("meditation")
         );
         break;
       case "Detox":
-        filtered = retreats.filter((retreat) => retreat.tag.includes("diet"));
+        filteredByType = retreats.filter((retreat) =>
+          retreat.tag.includes("diet")
+        );
         break;
       default:
-        filtered = retreats;
+        filteredByType = retreats;
+        break;
     }
-    setFilteredRetreats(filtered);
-    // No need to call setTotalPages here as useEffect handles it
+
+    // Apply search filter on top of type filter
+    applyFilters(filteredByType);
   };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    // Implement search logic
+    applyFilters();
   };
 
   const handlePageChange = (page) => {
@@ -90,12 +132,6 @@ const HomePage = () => {
     }
   };
 
-  // Calculate the retreat cards to display based on current page
-  const displayedRetreats = filteredRetreats.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
   return (
     <div>
       <Header />
@@ -107,8 +143,8 @@ const HomePage = () => {
         <SearchBar onSearch={handleSearch} />
       </div>
       <div className="retreat-list">
-        {displayedRetreats.length > 0 ? (
-          displayedRetreats.map((retreat) => (
+        {filteredRetreats.length > 0 ? (
+          filteredRetreats.map((retreat) => (
             <RetreatCard key={retreat.id} retreat={retreat} />
           ))
         ) : (
