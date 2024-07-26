@@ -14,7 +14,7 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 3; 
+  const itemsPerPage = 3;
 
   useEffect(() => {
     fetchRetreats();
@@ -37,7 +37,6 @@ const HomePage = () => {
   };
 
   const applyFilters = (retreatsToFilter = retreats) => {
-
     const searchFiltered = retreatsToFilter.filter((retreat) =>
       retreat.title.toLowerCase().includes(searchQuery.toLowerCase())
     );

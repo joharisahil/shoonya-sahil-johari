@@ -114,18 +114,19 @@ header h1 {
   }
 }
 
-.hero-card{
+.hero-card {
   background-color: rgb(224, 217, 207);
   border: 1px solid #eee;
   border-radius: 10px;
-  margin: 20px ;
+  margin: 20px;
   padding: 20px;
-  width: 95%;
+  min-width: 93%; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 @media (max-width: 768px) {
   .hero-card {
-   display: none;
+    display: none; 
   }
 }
 
