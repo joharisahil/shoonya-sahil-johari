@@ -6,6 +6,7 @@ import Filter from "../components/Filter";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import Footer from "../components/Footer";
+import Hero from "../components/Hero";
 
 const HomePage = () => {
   const [retreats, setRetreats] = useState([]);
@@ -13,7 +14,7 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 3; // Number of items per page
+  const itemsPerPage = 3; 
 
   useEffect(() => {
     fetchRetreats();
@@ -36,12 +37,11 @@ const HomePage = () => {
   };
 
   const applyFilters = (retreatsToFilter = retreats) => {
-    // Apply search filter
+
     const searchFiltered = retreatsToFilter.filter((retreat) =>
       retreat.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Apply pagination
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginatedFiltered = searchFiltered.slice(startIndex, endIndex);
@@ -79,7 +79,6 @@ const HomePage = () => {
       });
     }
 
-    // Apply search filter on top of date filter
     applyFilters(filteredByDate);
   };
 
@@ -107,7 +106,6 @@ const HomePage = () => {
         break;
     }
 
-    // Apply search filter on top of type filter
     applyFilters(filteredByType);
   };
 
@@ -135,6 +133,7 @@ const HomePage = () => {
   return (
     <div>
       <Header />
+      <Hero />
       <div className="search-tool">
         <Filter
           onDateChange={handleDateChange}

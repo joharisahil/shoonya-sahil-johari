@@ -22,7 +22,6 @@ body {
   box-shadow: rgba(3, 3, 3, 0.1) 2px 2px 4px;
 }
 
-/* Media query for mobile devices */
 @media (max-width: 768px) {
   .header-title {
     justify-content: center;
@@ -115,6 +114,42 @@ header h1 {
   }
 }
 
+.hero-card{
+  background-color: rgb(224, 217, 207);
+  border: 1px solid #eee;
+  border-radius: 10px;
+  margin: 20px ;
+  padding: 20px;
+  width: 95%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  .hero-card {
+   display: none;
+  }
+}
+
+.hero-card img {
+  height: 150px;
+  width: 100%;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+  border-radius: 16px;
+  border: 0px solid rgb(229, 231, 235);
+  object-fit:cover
+}
+
+.hero-card h2 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.hero-card p {
+  margin: 5px 0;
+}
+
 .retreat-list {
   display: flex;
   flex-wrap: nowrap;
@@ -135,9 +170,22 @@ header h1 {
   border-radius: 10px;
   margin: 10px;
   padding: 20px;
-  width: 513px;
+  width: 32%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .retreat-card {
+    background-color: rgb(224, 217, 207);
+    border: 1px solid #eee;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
 }
 
 .retreat-card:hover {
@@ -224,6 +272,12 @@ header h1 {
   border-top: 0px solid rgb(229, 231, 235);
   box-shadow: rgba(3, 3, 3, 0.1) 2px 2px 4px;
   width: 100%;
-  position: fixed;
   bottom: 0;
+}
+@media (max-width: 768px) {
+
+  .footer {
+    position: fixed;
+    bottom: 0px;
+  }
 }
